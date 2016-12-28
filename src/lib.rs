@@ -3,36 +3,6 @@ use std::ascii::*;
 pub trait CaseExt {
     type Owned;
 
-    /// Create a new string from a string slice with replacing all lower case ASCII characters
-    /// to their upper case counterparts.
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// use case::CaseExt;
-    ///
-    /// // Use universal function call syntax to avoid name collision with str's unstable
-    /// // `to_uppercase()`:
-    /// assert_eq!(&"stringy string".to_capitalized(), "Stringy string");
-    /// assert_eq!(&"言語".to_capitalized(), "言語");
-    /// ```
-    fn to_uppercase(&self) -> Self::Owned;
-
-    /// Create a new string from a string slice with replacing all upper case ASCII characters
-    /// to their lower case counterparts.
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// use case::CaseExt;
-    ///
-    /// // Use universal function call syntax to avoid name collision with str's unstable
-    /// // `to_lowercase()`:
-    /// assert_eq!(&CaseExt::to_lowercase("Attack Of The Stringons"), "attack of the stringons");
-    /// assert_eq!(&CaseExt::to_lowercase("言語"), "言語");
-    /// ```
-    fn to_lowercase(&self) -> Self::Owned;
-
     /// Create a new string from a string slice with replacing the first character with its
     /// to ASCII upper case counterpart (if one exists).
     ///
@@ -102,26 +72,6 @@ pub trait CaseExt {
 
 impl CaseExt for str {
     type Owned = String;
-
-    fn to_uppercase(&self) -> String {
-        let mut result = String::with_capacity(self.len());
-
-        for c in self.chars() {
-            result.push(c.to_ascii_uppercase());
-        }
-
-        result
-    }
-
-    fn to_lowercase(&self) -> String {
-        let mut result = String::with_capacity(self.len());
-
-        for c in self.chars() {
-            result.push(c.to_ascii_lowercase());
-        }
-
-        result
-    }
 
     fn to_capitalized(&self) -> Self::Owned {
         let mut result = String::with_capacity(self.len());

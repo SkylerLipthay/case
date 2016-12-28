@@ -28,10 +28,6 @@ assert_eq!(&"martinLutherStringJr".to_snake(), "martin_luther_string_jr");
 
 // Universal operations:
 assert_eq!(&"stringy string".to_capitalized(), "Stringy string");
-// Use universal function call syntax to avoid name collision with `str`'s unstable methods. These
-// two methods may be deprecated as `str.to_uppercase()` and `str.to_lowercase()` stabilize.
-assert_eq!(&CaseExt::to_uppercase("Buffalo strings"), "BUFFALO STRINGS");
-assert_eq!(&CaseExt::to_lowercase("Attack Of The Stringons"), "attack of the stringons");
 ```
 
 ## To-do
