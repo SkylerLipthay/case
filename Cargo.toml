@@ -1,6 +1,6 @@
 [package]
 name = "case"
-version = "0.0.1"
+version = "0.1.0"
 authors = ["Skyler Lipthay <skyler.lipthay@gmail.com>"]
 description = "A set of letter case string helpers"
 readme = "README.md"

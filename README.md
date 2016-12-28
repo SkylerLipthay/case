@@ -8,7 +8,7 @@ If you're using Cargo, just add `case` to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-case = "0.0.1"
+case = "0.1.0"
 ```
 
 ## Usage
