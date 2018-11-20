@@ -8,7 +8,7 @@ If you're using Cargo, just add `case` to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-case = "0.1.0"
+case = "1.0.0"
 ```
 
 ## Usage
@@ -25,9 +25,11 @@ assert_eq!(&"stringing_in_the_rain".to_dashed(), "stringing-in-the-rain");
 
 // Camel case operations:
 assert_eq!(&"martinLutherStringJr".to_snake(), "martin_luther_string_jr");
+assert!(&"martinLutherStringJr".is_camel_lowercase());
 
 // Universal operations:
 assert_eq!(&"stringy string".to_capitalized(), "Stringy string");
+assert!(&"Stringy string".is_capitalized());
 ```
 
 ## To-do
