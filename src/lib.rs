@@ -52,7 +52,7 @@ pub trait CaseExt {
     ///
     /// assert_eq!(&"string_henry_iii".to_camel_lowercase(), "stringHenryIii");
     /// assert_eq!(&"fooby".to_camel_lowercase(), "fooby");
-    /// assert_eq!(&"_wild__underscore_s_".to_camel_lowercase(), "WildUnderscoreS");
+    /// assert_eq!(&"_wild__underscore_s_".to_camel_lowercase(), "wildUnderscoreS");
     /// assert_eq!(&"言_語".to_camel_lowercase(), "言語");
     /// ```
     fn to_camel_lowercase(&self) -> Self::Owned;
@@ -180,7 +180,7 @@ fn to_camel_internal(term: &str, uppercase_first_letter: bool) -> String {
     let mut result = String::with_capacity(term.len() - underscore_count);
     let mut at_new_word = uppercase_first_letter;
 
-    for c in term.chars() {
+    for c in term.chars().skip_while(|&c| c == '_') {
         if c == '_' {
             at_new_word = true;
         } else if at_new_word {
