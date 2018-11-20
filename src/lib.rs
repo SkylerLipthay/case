@@ -1,5 +1,3 @@
-use std::ascii::*;
-
 pub trait CaseExt {
     type Owned;
 
@@ -15,6 +13,21 @@ pub trait CaseExt {
     /// assert_eq!(&CaseExt::to_capitalized("言語"), "言語");
     /// ```
     fn to_capitalized(&self) -> Self::Owned;
+
+    /// Check whether a string is capitalized.
+    ///
+    /// If the the list is empty, the string is not considered capitalized.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use case::CaseExt;
+    ///
+    /// assert_eq!("Stringy string".is_capitalized(), true);
+    /// assert_eq!("hello world".is_capitalized(), false);
+    /// assert_eq!("".is_capitalized(), false);
+    /// ```
+    fn is_capitalized(&self) -> bool;
 
     /// Convert a string slice from snake case to a new capitalized camel case string.
     ///
@@ -43,6 +56,22 @@ pub trait CaseExt {
     /// assert_eq!(&"言_語".to_camel_lowercase(), "言語");
     /// ```
     fn to_camel_lowercase(&self) -> Self::Owned;
+
+    /// Check whether a string is in camel lowercase.
+    ///
+    /// If the the list is empty, the string is not considered camel lowercase.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use case::CaseExt;
+    ///
+    /// assert_eq!("Stringy string".is_camel_lowercase(), false);
+    /// assert_eq!("helloWorld".is_camel_lowercase(), true);
+    /// assert_eq!("WildUnderscoreS".is_camel_lowercase(), false);
+    /// assert_eq!("".is_capitalized(), false);
+    /// ```
+    fn is_camel_lowercase(&self) -> bool;
 
     /// Convert a string from camel case to snake case.
     ///
@@ -87,8 +116,25 @@ impl CaseExt for str {
         result
     }
 
+    fn is_capitalized(&self) -> bool {
+        if let Some(first) = self.chars().next() {
+            first.is_uppercase()
+        } else {
+            false
+        }
+    }
+
     fn to_camel(&self) -> String {
         to_camel_internal(self, true)
+    }
+
+    fn is_camel_lowercase(&self) -> bool {
+        match self.chars().next() {
+            Some(first) if first.is_uppercase() => return false,
+            _ => ()
+        }
+
+        !self.contains('_')
     }
 
     fn to_camel_lowercase(&self) -> String {
