@@ -198,3 +198,67 @@ fn to_camel_internal(term: &str, uppercase_first_letter: bool) -> String {
 fn is_ascii_uppercase(c: char) -> bool {
     c >= 'A' && c <= 'Z'
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn to_capitalized() {
+        assert_eq!(&CaseExt::to_capitalized("stringy string"), "Stringy string");
+        assert_eq!(&CaseExt::to_capitalized("言語"), "言語");
+    }
+
+    #[test]
+    fn is_capitalized() {
+        assert_eq!("Stringy string".is_capitalized(), true);
+        assert_eq!("hello world".is_capitalized(), false);
+        assert_eq!("".is_capitalized(), false);
+    }
+
+    #[test]
+    fn to_camel() {
+        assert_eq!(&"a_string_and_a_miss".to_camel(), "AStringAndAMiss");
+        assert_eq!(&"fooby".to_camel(), "Fooby");
+        assert_eq!(&"_wild__underscore_s_".to_camel(), "WildUnderscoreS");
+        assert_eq!(&"言_語".to_camel(), "言語");
+    }
+
+    #[test]
+    fn to_camel_lowercase() {
+        assert_eq!(&"string_henry_iii".to_camel_lowercase(), "stringHenryIii");
+        assert_eq!(&"fooby".to_camel_lowercase(), "fooby");
+        assert_eq!(
+            &"_wild__underscore_s_".to_camel_lowercase(),
+            "wildUnderscoreS"
+        );
+        assert_eq!(&"言_語".to_camel_lowercase(), "言語");
+    }
+
+    #[test]
+    fn is_camel_lowercase() {
+        assert_eq!("Stringy string".is_camel_lowercase(), false);
+        assert_eq!("helloWorld".is_camel_lowercase(), true);
+        assert_eq!("WildUnderscoreS".is_camel_lowercase(), false);
+        assert_eq!("".is_capitalized(), false);
+    }
+
+    #[test]
+    fn to_snake() {
+        assert_eq!(
+            &"martinLutherStringJr".to_snake(),
+            "martin_luther_string_jr"
+        );
+        assert_eq!(&"fooby".to_snake(), "fooby");
+        assert_eq!(&"WildUnderscoreS".to_snake(), "wild_underscore_s");
+        assert_eq!(&"言語".to_snake(), "言語");
+    }
+
+    #[test]
+    fn to_dashed() {
+        assert_eq!(
+            &"stringing_in_the_rain".to_dashed(),
+            "stringing-in-the-rain"
+        );
+    }
+}
