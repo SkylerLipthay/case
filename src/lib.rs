@@ -83,6 +83,8 @@ pub trait CaseExt {
     /// assert_eq!(&"martinLutherStringJr".to_snake(), "martin_luther_string_jr");
     /// assert_eq!(&"fooby".to_snake(), "fooby");
     /// assert_eq!(&"WildUnderscoreS".to_snake(), "wild_underscore_s");
+    /// assert_eq!(&"DOMDebugger".to_snake(), "dom_debugger");
+    /// assert_eq!(&"IndexedDB".to_snake(), "indexed_db");
     /// assert_eq!(&"言語".to_snake(), "言語");
     /// ```
     fn to_snake(&self) -> Self::Owned;
@@ -149,7 +151,20 @@ impl CaseExt for str {
 
         for (i, c) in self.chars().enumerate() {
             if is_ascii_uppercase(c) {
-                if i != 0 {
+                let prev_is_not_ascii_uppercase = || {
+                    self.chars()
+                        .nth(i - 1)
+                        .map(|c| !is_ascii_uppercase(c))
+                        .unwrap_or_default()
+                };
+                let next_is_not_ascii_uppercase = || {
+                    self.chars()
+                        .nth(i + 1)
+                        .map(|c| !is_ascii_uppercase(c))
+                        .unwrap_or_default()
+                };
+
+                if i != 0 && (prev_is_not_ascii_uppercase() || next_is_not_ascii_uppercase()) {
                     result.push('_');
                 }
                 result.push(c.to_ascii_lowercase());
