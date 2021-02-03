@@ -26,6 +26,7 @@ assert_eq!(&"stringing_in_the_rain".to_dashed(), "stringing-in-the-rain");
 // Camel case operations:
 assert_eq!(&"martinLutherStringJr".to_snake(), "martin_luther_string_jr");
 assert!(&"martinLutherStringJr".is_camel_lowercase());
+assert_eq!(&"CAWebServices____aKey____Response".to_snake(), "ca_web_services_a_key_response");
 
 // Universal operations:
 assert_eq!(&"stringy string".to_capitalized(), "Stringy string");
