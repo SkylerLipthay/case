@@ -147,17 +147,44 @@ impl CaseExt for str {
         let underscore_count = self.chars().skip(1).filter(|&c| is_ascii_uppercase(c)).count();
         let mut result = String::with_capacity(self.len() + underscore_count);
 
+        let mut uppercase_num = 0;
+        let mut last_char: char = '_';
         for (i, c) in self.chars().enumerate() {
             if is_ascii_uppercase(c) {
                 if i != 0 {
-                    result.push('_');
+                    if uppercase_num & 1 == 1 && last_char != '_' {
+                        result.push(last_char);
+                        uppercase_num = 3;
+                    } else {
+                        result.push('_');
+                        uppercase_num = 1;
+                    }
+                } else {
+                    uppercase_num = 1;
                 }
-                result.push(c.to_ascii_lowercase());
+                last_char = c.to_ascii_lowercase();
+            } else if c == '_' {
+                if uppercase_num & 1 == 1 {
+                    if last_char != c {
+                        result.push(last_char);
+                    }
+                }
+                last_char = c;
+                uppercase_num = 1;
             } else {
+                if uppercase_num == 3 {
+                    result.push('_');
+                    result.push(last_char);
+                } else if uppercase_num == 1 {
+                    result.push(last_char);
+                }
                 result.push(c);
+                uppercase_num = 0;
             }
         }
-
+        if uppercase_num & 1 == 1 {
+            result.push(last_char);
+        }
         result
     }
 
