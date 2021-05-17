@@ -97,6 +97,17 @@ pub trait CaseExt {
     /// assert_eq!(&"stringing_in_the_rain".to_dashed(), "stringing-in-the-rain");
     /// ```
     fn to_dashed(&self) -> Self::Owned;
+
+    /// Replaces underscores to spaces and capitalize each word's first character
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use case::CaseExt;
+    ///
+    /// assert_eq!(&"stringing_in_the_rain".to_title(), "Stringing In The Rain");
+    /// ```
+    fn to_title(&self) -> Self::Owned;
 }
 
 impl CaseExt for str {
@@ -169,6 +180,30 @@ impl CaseExt for str {
                 '_' => '-',
                 c => c
             });
+        }
+
+        result
+    }
+
+    fn to_title(&self) -> Self::Owned {
+        let mut result = String::with_capacity(self.len());
+
+        let mut capitalize_next = true;
+        for c in self.chars() {
+            match c {
+                '_' => {
+                    result.push(' ');
+                    capitalize_next = true;
+                },
+                c => {
+                    if capitalize_next {
+                        result.extend(c.to_uppercase());
+                        capitalize_next = false;
+                    } else {
+                        result.push(c);
+                    }
+                }
+            };
         }
 
         result
