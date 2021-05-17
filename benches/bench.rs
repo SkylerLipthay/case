@@ -40,3 +40,8 @@ fn bench_to_uppercase(b: &mut Bencher) {
 fn bench_to_capitalized(b: &mut Bencher) {
     b.iter(|| "my favorite string".to_capitalized());
 }
+
+#[bench]
+fn bench_to_title(b: &mut Bencher) {
+    b.iter(|| "my_favorite_string".to_title());
+}
